@@ -730,6 +730,7 @@ int main (int argc, const char** argv) {
 
   int maxblock = 999999999;
   uint64 current_cpu = 0;
+  uint64 max_cpu_seen = 0;
   uint64 traceblock[kTraceBufSize];	// 8 bytes per trace entry
   uint8 ipcblock[kTraceBufSize];	// One byte per trace entry
 
@@ -883,6 +884,7 @@ int main (int argc, const char** argv) {
     // Pick out CPU number for this traceblock
     current_cpu = traceblock[0] >> 56;
     unique_cpus.insert(current_cpu);	// stats
+    if (current_cpu > max_cpu_seen) max_cpu_seen = current_cpu;
 
     // Pick out times for converting to 100Mhz
     uint64 prepend = base_cycle & ~0xfffff;
@@ -1433,11 +1435,20 @@ int main (int argc, const char** argv) {
       // Output the trace event
       // Output format:
       // time dur event cpu  pid rpc  arg retval IPC name(event)
-      OutputEvent(stdout, nsec10, duration, event, current_cpu, 
-                  current_pid[current_cpu], current_rpc[current_cpu], 
-                  arg, retval, ipc, name.c_str());
-      // Update some statistics
-      ++event_count;	// stats
+      if (event == 0x21c) {
+        for (uint64 cpu = 0; cpu <= max_cpu_seen; ++cpu) {
+          OutputEvent(stdout, nsec10, duration, event, cpu,
+            current_pid[cpu], current_rpc[cpu],
+            arg, retval, ipc, name.c_str());
+          ++event_count;	// stats
+        }
+      } else {
+        OutputEvent(stdout, nsec10, duration, event, current_cpu, 
+          current_pid[current_cpu], current_rpc[current_cpu], 
+          arg, retval, ipc, name.c_str());
+        // Update some statistics
+        ++event_count;	// stats
+      }
 
       if (hexevent && extra_word) {
         fprintf(stdout, "   %16llx\n", traceblock[entry_i + 1]); 
