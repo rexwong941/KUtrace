@@ -627,6 +627,8 @@ void ku_setup_llc_miss(void)
 	llc_miss_enable = rdMSR(IA32_PERF_GLOBAL_CTRL);
 	llc_miss_enable |= PMC1_EN;
 	wrMSR(IA32_PERF_GLOBAL_CTRL, llc_miss_enable);
+#elif IsRPi4_64
+	/* LLC tracking not implemented on RPi */
 #else
 	/* Not implemented for AMD, RPi */
 #error Define ku_setup_llc_miss for your architecture
@@ -711,6 +713,8 @@ inline u64 ku_get_llc_miss(void)
 	int ecx = IA32_PMC1;		/* What counter it selects, Intel */
 	__asm __volatile("rdmsr" : "=a"(a), "=d"(d) : "c"(ecx));
 	return ((u64)a) | (((u64)d) << 32);
+#elif IsRPi4_64
+	return 0;
 #else
 	/* Not implemented for AMD, RPi */
 #error Define llc_miss for your architecture
