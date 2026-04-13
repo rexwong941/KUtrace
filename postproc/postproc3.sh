@@ -20,4 +20,4 @@ fi
 cat $var1.json |./spantotrim $trim_arg |./makeself show_cpu.html >$var1.html
 echo "  $var1.html written"
 
-google-chrome $var1.html &
+chromium $var1.html &
