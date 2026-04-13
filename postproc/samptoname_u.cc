@@ -142,7 +142,7 @@ void ReadAllmaps(FILE* f, MapsMap* allmaps) {
     RangeToFile temp;
     temp.addr_lo = addr_lo;
     temp.addr_hi = addr_hi;
-    temp.pid = current_pid;
+    temp.pid = current_pid & 0xFFFF;
     temp.pathname = pathname;
     uint64 key = (current_pid << 48) | (addr_lo & 0x0000FFFFFFFFFFFFL);
 
