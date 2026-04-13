@@ -350,23 +350,27 @@ static const NumNamePair Syscall64Names[] = {
 static const NumNamePair IrqNames[] = {
   {2, "resched_ipi"},
   {9, "vgic"},
-  {11, "arch_timer"}, 
+  {11, "kvm_guest_ptimer"},
   {12, "kvm_guest_vtimer"},
-  {18, "gpu_mbox"},	/* fe00b880.mailbox */
-  {21, "uart-pl011"},
+  {13, "arch_timer"}, 
+  {14, "gpu_mbox"},	/* fe00b880.mailbox */
+  {21, "dma_irq"},
+  {22, "dma_irq"},
+  {23, "dma_irq"},
   {24, "dma_irq"},
-  {31, "vchiq_doorbell"},
-  {32, "eth0"},		/* mmc0_mmc1 */
-  {33, "vc4_firmware_kms"},
+  {33, "ttyS0"},
   {34, "arm-pmu"},
   {35, "arm-pmu"},
   {36, "arm-pmu"},
   {37, "arm-pmu"},
-  {38, "ssd"},
-  {39, "eth0?"},
-  {40, "eth00?"},
-  {46, "v3d"},
-  {48, "xhci_hcd"},
+  {38, "aerdrv"},
+  {106, "eth0"},
+  {131, "usb1"},
+  {136, "usb3"},  
+  {161, "mmc0"},
+  {162, "mmc1"},  
+  {167, "v3d_core0"},
+  {168, "v3d_hub"},
 
 // Raspberry Pi list plus some x86
 
