@@ -124,7 +124,8 @@ int main (int argc, const char** argv) {
     char buffer2[256];
     buffer2[0] = '\0';
     OneSpan onespan;
-    int n = sscanf(buffer, "[%lf, %lf, %d, %d, %d, %d, %d, %d, %d, %s",
+    int n = sscanf(buffer,
+                "[%lf, %lf, %d, %d, %d, %d, %d, %d, %d, \"%63[^\"]\"],",
                    &onespan.start_ts, &onespan.duration, 
                    &onespan.cpu, &onespan.pid, &onespan.rpcid, 
                    &onespan.event, &onespan.arg, &onespan.retval, &onespan.ipc, onespan.name);
@@ -152,7 +153,7 @@ int main (int argc, const char** argv) {
     if (!inside_label_span) {continue;}	
 
     // Name has trailing punctuation, including ],
-    fprintf(stdout, "[%12.8f, %10.8f, %d, %d, %d, %d, %d, %d, %d, %s\n",
+    fprintf(stdout, "[%12.8f, %10.8f, %d, %d, %d, %d, %d, %d, %d, \"%s\"],\n",
             onespan.start_ts, onespan.duration,
             onespan.cpu, onespan.pid, onespan.rpcid, onespan.event, 
             onespan.arg, onespan.retval, onespan.ipc, onespan.name);
